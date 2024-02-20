@@ -1,5 +1,4 @@
 import numpy as np
-#from numpy import array, eye, linalg, zeros, matmul
 
 #1D heat equation in a rod
 #define function
