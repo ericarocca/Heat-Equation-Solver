@@ -29,12 +29,9 @@ def heateq(length, nx, time, nt, alpha):
     deltat = time / (nt - 1)
     r = alpha * deltat / (deltax)**2
     
-    #create matrices
-    C = (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx)) * r
-    
-    A = np.eye(nx) - C
-    
-    B = np.eye(nx) + C
+    #create matrices    
+    A = np.eye(nx) - ((np.eye(nx, k=1) + np.eye(nx, k=-1) - (1 / r + 2) * np.eye(nx)) * r)
+    B = np.eye(nx) + ((np.eye(nx, k=1) + np.eye(nx, k=-1) + (1 / r - 2) * np.eye(nx)) * r)
     
     for i in range(nt):
         
