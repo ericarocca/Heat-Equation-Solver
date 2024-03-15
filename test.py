@@ -1,6 +1,7 @@
 from function import heatCN
+import pytest
 import numpy as np
-#import pytest
+
 
 test_cases = [
     #peat thermal diffusivity
@@ -10,26 +11,47 @@ test_cases = [
     {"length": 47.0, "nx": 129, "time": 1.0, "nt": 50, "alpha": 1.3}
     ]
 
-def test_boundary_conditions(length, nx, time, nt, alpha):
+
+@pytest.mark.parametrize("parameters", test_cases)
+def test_boundary_conditions(parameters):
+    length = parameters["length"]
+    nx = parameters["nx"]
+    time = parameters["time"]
+    nt = parameters["nt"]
+    alpha = parameters["alpha"]
     
-    for params in test_cases:
-        length, nx, time, nt, alpha = params
     x_grid, w = heatCN(length, nx, time, nt, alpha)
     
     assert np.all(w[0,:] == 0)
-    assert np.all(w[-1,:] == 0)
+    assert np.all(w[-1,:] == 0)    
     
+
+@pytest.mark.parametrize("parameters", test_cases)
+def test_matrices_shape(parameters):
     
-def test_matrices_construction():
-    for params in test_cases:
-        length, nx, time, nt, alpha = params
-    x_grid, w, b, _, _, A, B = heatCN(length, nx, time, nt, alpha)
-    
+    length = parameters["length"]
+    nx = parameters["nx"]
+    time = parameters["time"]
+    nt = parameters["nt"]
+    alpha = parameters["alpha"]
+    # Convert parameters to the correct types if needed
+    length = float(length)
+    nx = int(nx)
+    time = float(time)
+    nt = int(nt)
+    alpha = float(alpha)
+        
+    x_grid, w, b, A, B = heatCN(length, nx, time, nt, alpha)
+        
     #check dimensions of matrices A, B, C, w
     assert A.shape == (nx, nx)
     assert B.shape == (nx, nx)
     assert w.shape == (nx, nt)
-    
+        
     #check dimension of array b
     assert b.shape == (nx,)
-        
+
+    
+
+if __name__ == "main":
+    pass        
