@@ -20,7 +20,7 @@ def test_boundary_conditions(parameters):
     nt = parameters["nt"]
     alpha = parameters["alpha"]
     
-    x_grid, w = heatCN(length, nx, time, nt, alpha)
+    x_grid, w, b, A, B = heatCN(length, nx, time, nt, alpha)
     
     assert np.all(w[0,:] == 0)
     assert np.all(w[-1,:] == 0)    
@@ -34,7 +34,7 @@ def test_matrices_shape(parameters):
     time = parameters["time"]
     nt = parameters["nt"]
     alpha = parameters["alpha"]
-    # Convert parameters to the correct types if needed
+   
     length = float(length)
     nx = int(nx)
     time = float(time)
@@ -43,15 +43,15 @@ def test_matrices_shape(parameters):
         
     x_grid, w, b, A, B = heatCN(length, nx, time, nt, alpha)
         
-    #check dimensions of matrices A, B, C, w
     assert A.shape == (nx, nx)
     assert B.shape == (nx, nx)
     assert w.shape == (nx, nt)
-        
-    #check dimension of array b
     assert b.shape == (nx,)
 
     
+
+
+
 
 if __name__ == "main":
     pass        
