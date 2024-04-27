@@ -1,9 +1,9 @@
 import numpy as np
 
 #1D heat equation in a rod
-#define function
+#define Crank-Nicolson function
 
-def heateq(length, nx, time, nt, alpha):
+def heatCN(length, nx, time, nt, alpha):
     #nx = spatial steps
     #nt = time steps
     #alpha = diffusivity coefficient of the medium
@@ -13,7 +13,8 @@ def heateq(length, nx, time, nt, alpha):
     x_grid = np.linspace(0, length, num=nx) 
 
     #function of temperature
-    function_temperature = np.sin( np.pi * x_grid)
+    function_temperature = np.sin( np.pi * x_grid / length)
+#    function_temperature = np.cos(np.pi * x_grid)
     
     #create heat array
     w = np.zeros([nx, nt])
@@ -60,4 +61,4 @@ def heateq(length, nx, time, nt, alpha):
         
     
     #return solution    
-    return x_grid, w
+    return x_grid, w, b, A, B
