@@ -1,9 +1,16 @@
 import numpy as np
+import math
 
 #1D heat equation in a rod
-#define Crank-Nicolson function
+#define all the functions
+#Function of temperature
+#Crank-Nicolson function
+#Analytical function
 
-def heatCN(length, nx, time, nt, alpha):
+def function_temperature(x):
+    return np.ones_like(x) * 20
+
+def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
     #nx = spatial steps
     #nt = time steps
     #alpha = diffusivity coefficient of the medium
@@ -13,8 +20,8 @@ def heatCN(length, nx, time, nt, alpha):
     x_grid = np.linspace(0, length, num=nx) 
 
     #function of temperature
-    function_temperature = np.sin( np.pi * x_grid / length)
-    #function_temperature = np.cos(np.pi * x_grid)
+#    function_temperature = np.sin( np.pi * x_grid / length)
+#    function_temperature = np.cos(np.pi * x_grid)
     
     #create heat array 
     w = np.zeros([nx, nt])
@@ -68,3 +75,32 @@ def heatCN(length, nx, time, nt, alpha):
     
     #return solution    
     return x_grid, w, b, A, B
+
+
+
+
+#rivedi k
+
+def heat_equation_analytical(length, nx, time, nt,k):
+    
+    #create heat array
+    wa = np.zeros([nx, nt])
+    
+    #create time and space arrays
+    t = np.linspace(0, time, num=nt)
+    x = np.linspace(0, length, num=nx)
+    
+    #general solution
+    #first create the fragments of Fourier series
+    #then they combine to form the solution
+    for n in range (1,500):
+        for i in range (nt-1):
+            c = (40 * (1-(-1)**n) )/(n*np.pi)
+            s = np.sin((n*np.pi*x[:])/length)
+            e = math.exp(-k*((n*np.pi)/length)**2*t[i])
+            
+            
+            wa[:,i] = wa[:,i] + c * s * e
+    
+    
+    return x, wa
