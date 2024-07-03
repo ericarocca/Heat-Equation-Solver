@@ -2,7 +2,35 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+def check_stability(length, time, alpha, nx_values, nt_values):
+    """
+    Checking for the stable parameters.
 
+    Parameters
+    ----------
+    length : length of the rod.
+    time : time of the evolution.
+    alpha : diffusivity cooefficient of the medium.
+    nx_values : spatial steps.
+    nt_values : time steps.
+
+    Returns
+    -------
+    stable_combinations : array with the combination of parameters that respect the condition of r < 0.5.
+
+    """
+    
+    stable_combinations = []
+    
+    for nx in nx_values:
+        for nt in nt_values:
+            deltax = length / (nx - 1)
+            deltat = time / (nt - 1)
+            r = alpha * deltat / deltax**2
+            if r < 0.5:
+                stable_combinations.append((length, time, nx, nt, r))
+    
+    return stable_combinations
 def function_temperature(x, length):
     """
     Generate the initial temperature distribution.
@@ -18,7 +46,6 @@ def function_temperature(x, length):
     #return np.sin(np.pi * x)
     return 6 * np.sin(np.pi * x / length)
 
-#Numerical solution using Crank-Nicolson method
 def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
     """
     The function calculates the numerical solution of the heat equation using Crank-Nicolson method.
