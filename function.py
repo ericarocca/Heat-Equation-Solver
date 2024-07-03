@@ -42,9 +42,7 @@ def function_temperature(x, length):
     Returns:
         The initial temperature distribution.
     """
-        
-    #return np.sin(np.pi * x)
-    return 6 * np.sin(np.pi * x / length)
+    return np.sin(np.pi * x / length)
 
 def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
     """
@@ -128,7 +126,7 @@ def heat_equation_analytical(length, nx, time, nt, alpha):
     x = np.linspace(0, length, num=nx)
     
     for i in range(nt):
-        wa[:, i] = 6 * np.sin(np.pi * x / length) * np.exp(-alpha * (np.pi / length)**2 * t[i])
+        wa[:, i] = np.sin(np.pi * x / length) * np.exp(-alpha * (np.pi / length)**2 * t[i])
         #wa[:, i] = np.sin(np.pi * x ) * np.exp(-alpha * (np.pi / length)**2 * t[i])
         wa[0, i] = wa[-1, i] = 0
         if i == 1 or i == nt - 1:  # Print for the first and last time steps
