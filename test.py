@@ -4,7 +4,7 @@ import hypothesis
 from hypothesis import strategies as st
 from hypothesis import settings
 from hypothesis import given
-from function import heat_equation_CN, function_temperature
+from function import function_temperature, heat_equation_CN, heat_equation_analytical
 
 test_cases = [
     # peat thermal diffusivity
@@ -14,6 +14,13 @@ test_cases = [
     {"length": 47.0, "nx": 129, "time": 1.0, "nt": 50, "alpha": 1.3}
 ]
 
+TOLERANCE = 1e-3
+
+def test_initial_conditions():
+    x = np.linspace(0, 1.0, 20)
+    expected_initial =  np.sin(np.pi * x / 1.0)
+    actual_initial = np.array([function_temperature(xi, 1.0) for xi in x])
+    np.testing.assert_allclose(actual_initial, expected_initial, rtol=TOLERANCE)
 
 @pytest.mark.parametrize("parameters", test_cases)
 def test_boundary_conditions(parameters):
@@ -22,13 +29,11 @@ def test_boundary_conditions(parameters):
     time = parameters["time"]
     nt = parameters["nt"]
     alpha = parameters["alpha"]
+
+    x_grid, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
     
-    x_grid = np.linspace(0, length, num=nx)
-    x_grid, w, b, A, B = heat_equation_CN(length, nx, time, nt, alpha, function_temperature(x_grid))
-    
-    assert np.all(w[0,:] == 0)
-    assert np.all(w[-1,:] == 0)    
-    
+    assert np.all(w[0, :] == 0)
+    assert np.all(w[-1, :] == 0)
 
 @pytest.mark.parametrize("parameters", test_cases)
 def test_matrices_shape(parameters):
@@ -37,18 +42,7 @@ def test_matrices_shape(parameters):
     time = parameters["time"]
     nt = parameters["nt"]
     alpha = parameters["alpha"]
-    #convert parameters to the correct types
-    length = float(length)
-    nx = int(nx)
-    time = float(time)
-    nt = int(nt)
-    alpha = float(alpha)
-      
-    x_grid = np.linspace(0, length, num=nx)
-    x_grid, w, b, A, B = heat_equation_CN(length, nx, time, nt, alpha, function_temperature(x_grid))
+    
+    x_grid, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
         
-    #check dimensions of matrices A, B, C, w and, array b
-    assert A.shape == (nx, nx)
-    assert B.shape == (nx, nx)
     assert w.shape == (nx, nt)
-    assert b.shape == (nx,)
