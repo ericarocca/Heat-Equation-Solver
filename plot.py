@@ -1,6 +1,5 @@
-from function import heat_equation_CN, function_temperature
-import numpy as np
 import matplotlib.pyplot as plt
+from function import function_temperature, heat_equation_CN, heat_equation_analytical
 
 def plot_solutions(x, w, wa, nt, time):
     """
@@ -46,5 +45,5 @@ def plot_surface_solution(x, w, nt, time):
     ax.set_xlabel('Position')
     ax.set_ylabel('Time')
     ax.set_zlabel('Temperature')
-    ax.set_title('3D Surface Plot of the Heat Equation Solution')
+    ax.set_title('3D Surface Plot of the Heat Equation Numerical Solution')
     plt.show()
