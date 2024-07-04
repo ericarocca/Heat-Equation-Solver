@@ -58,7 +58,7 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
         
     Returns
     -------
-        x_grid : array of spatial coordinates along the rod with nx points.
+        x : array of spatial coordinates along the rod with nx points.
         w : array of the temperature calculated with the Crank-Nicolson method of dimensions [nx, nt].
     
     Raises
@@ -66,11 +66,11 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
         ValueError: If the stability condition is not respected
     """
     
-    x_grid = np.linspace(0, length, num=nx)
+    x = np.linspace(0, length, num=nx)
     w = np.zeros([nx, nt])
 
     for i in range(nx):
-        w[i, 0] = function_temperature(x_grid[i], length)
+        w[i, 0] = function_temperature(x[i], length)
 
     w[0, :] = w[-1, :] = 0
 
@@ -101,7 +101,7 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
             print(w[:, i])
 
     
-    return x_grid, w
+    return x, w
 
 def heat_equation_analytical(length, nx, time, nt, alpha):
     """
