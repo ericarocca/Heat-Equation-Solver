@@ -29,6 +29,7 @@ def check_stability(length, time, alpha, nx_values, nt_values):
                 stable_combinations.append((length, time, nx, nt, r))
     
     return stable_combinations
+    
 def function_temperature(x, length):
     """
     Generate the initial temperature distribution.
@@ -63,6 +64,10 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
     ------
         ValueError: If the stability condition is not respected
     """
+
+    stable_combinations = check_stability(length, time, alpha, [nx], [nt])
+    if not stable_combinations:
+        raise ValueError("The scheme is unstable for the provided parameters.")
     
     x = np.linspace(0, length, num=nx)
     w = np.zeros([nx, nt])
@@ -75,11 +80,6 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
     deltax = length / (nx - 1)
     deltat = time / (nt - 1)
     r = alpha * deltat / deltax**2
-
-    #print(f"deltax: {deltax}, deltat: {deltat}, r: {r}")
-    
-    if r > 0.5:
-        raise ValueError(f"The scheme is unstable: r = {r}")
 
     A = np.eye(nx) - r/2 * (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx))
     B = np.eye(nx) + r/2 * (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx))
@@ -98,7 +98,6 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
             print(f"Numerical solution at t={i * deltat}:")
             print(w[:, i])
 
-    
     return x, w
 
 def heat_equation_analytical(length, nx, time, nt, alpha):
