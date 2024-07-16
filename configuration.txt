@@ -1,0 +1,6 @@
+[settings]
+length = 3.0
+nx_values = 10,250,31
+time = 1.0
+nt_values = 25,250,117
+alpha = 0.1
