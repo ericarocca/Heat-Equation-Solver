@@ -95,20 +95,18 @@ def test_analytical_solution():
     nt = 500
     alpha = 0.01
     x_num, w_num = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
-    x_a, wa = heat_equation_analytical(length, nx, time, nt, alpha)
+    x_ana, w_ana = heat_equation_analytical(length, nx, time, nt, alpha)
     
-    assert w_num.shape == wa.shape, f"Shapes of numerical {w_num.shape} and analytical {wa.shape} solutions do not match"
+    assert w_num.shape == w_ana.shape, f"Shapes of numerical {w_num.shape} and analytical {wa.shape} solutions do not match"
     
     try:
-        np.testing.assert_allclose(w_num, wa, rtol=1e-3, atol=5e-4)
+        np.testing.assert_allclose(w_num, w_ana, rtol=1e-3, atol=5e-4)
     except AssertionError as e:
         print(f"Numerical solution:\n{w_num}")
-        print(f"Analytical solution:\n{wa}")
+        print(f"Analytical solution:\n{w_ana}")
         raise e
-
-    x_grid, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
         
-    assert w.shape == (nx, nt)
+    assert w_num.shape == (nx, nt)
 
 @settings(deadline=None)
 @given(
