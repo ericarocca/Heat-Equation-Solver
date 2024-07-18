@@ -25,5 +25,5 @@ for combination in stable_combinations:
     x, wa = heat_equation_analytical(chosen_length, chosen_nx, chosen_time, chosen_nt, alpha)
 
     # Plot solutions
-    plot_solutions(x, w, wa, chosen_nt, chosen_time)
-    plot_surface_solution(x, w, chosen_nt, chosen_time)
+    plot_solutions(x, w, wa, chosen_nt, chosen_time, chosen_length, chosen_nx, alpha)
+    plot_surface_solution(x, w, chosen_nt, chosen_time, chosen_length, chosen_nx, alpha)
