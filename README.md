@@ -21,7 +21,14 @@ where $A$ and $B$ are tridiagonal matrices
 <h2>Structure of the project</h2>
 
 There are four blocks in this project:
+* In the [configuration.txt](https://github.com/ericarocca/Heat-Equation-Solver/blob/main/configuration.txt) file there are all the parameters used in the [simulation.py](https://github.com/ericarocca/Heat-Equation-Solver/blob/main/simulation.py).
 * In the [function.py](https://github.com/ericarocca/Heat-Equation-Solver/blob/main/function.py) file there are all the functions.
 * In the [test.py](https://github.com/ericarocca/Heat-Equation-Solver/blob/main/test.py) file all the functions are tested so that all of them work properly as well as the program.
 * In the [plot.py](https://github.com/ericarocca/Heat-Equation-Solver/blob/main/plot.py) file there are two functions, one that plot the comparison between the numerical and the analytical solution of the heat equation and the other that show the surface plot of the numerical solution.
 * In the [simulation.py](https://github.com/ericarocca/Heat-Equation-Solver/blob/main/simulation.py) file there is the main part of the code, where the numerical and analytical solutions are calculated and then plotted
+
+Some examples of the obtainable results:
+![Plot](./Plot/Figure1.png)
+![Plot](./Plot/Figure2.png)
+![Plot](./Plot/Figure3.png)
+![Plot](./Plot/Figure4.png)
