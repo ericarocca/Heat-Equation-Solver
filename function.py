@@ -118,6 +118,10 @@ def heat_equation_analytical(length, nx, time, nt, alpha):
     wa : array of the temperature calculated with a Fourier sine series.
     """
     
+    stable_combinations = check_stability(length, time, alpha, [nx], [nt])
+    if not stable_combinations:
+        raise ValueError("The scheme is unstable for the provided parameters.")
+
     wa = np.zeros([nx, nt])
     t = np.linspace(0, time, num=nt)
     x = np.linspace(0, length, num=nx)
@@ -126,8 +130,8 @@ def heat_equation_analytical(length, nx, time, nt, alpha):
         wa[:, i] = np.sin(np.pi * x / length) * np.exp(-alpha * (np.pi / length)**2 * t[i])
         #wa[:, i] = np.sin(np.pi * x ) * np.exp(-alpha * (np.pi / length)**2 * t[i])
         wa[0, i] = wa[-1, i] = 0
-        if i == 1 or i == nt - 1:  # Print for the first and last time steps
-            print(f"Analytical solution at t={t[i]}:")
-            print(wa[:, i])
+        #if i == 1 or i == nt - 1:  # Print for the first and last time steps
+        #    print(f"Analytical solution at t={t[i]}:")
+        #    print(wa[:, i])
     
     return x, wa
