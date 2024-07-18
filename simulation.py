@@ -10,6 +10,9 @@ time = float(config.get('settings', 'time'))
 nt_values = list(map(int, config.get('settings', 'nt_values').split(',')))
 alpha = float(config.get('settings', 'alpha'))
 
+numerical_solution = config.get('paths', 'numerical_solution')
+analytical_solution = config.get('paths', 'analytical_solution')
+
 #Verify the presence of stable combinations and then solve and plot for those.
 stable_combinations = check_stability(length, time, alpha, nx_values, nt_values)
 if not stable_combinations:
@@ -21,8 +24,10 @@ for combination in stable_combinations:
     print(f"Running simulation with nx={chosen_nx}, nt={chosen_nt}, r={chosen_r}")
 
     x, w = heat_equation_CN(chosen_length, chosen_nx, chosen_time, chosen_nt, alpha, function_temperature)
-
     x, wa = heat_equation_analytical(chosen_length, chosen_nx, chosen_time, chosen_nt, alpha)
+    
+    np.save(numerical_solution, w)
+    np.save(analytical_solution, wa)
 
     # Plot solutions
     plot_solutions(x, w, wa, chosen_nt, chosen_time, chosen_length, chosen_nx, alpha)
