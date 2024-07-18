@@ -16,12 +16,16 @@ time = float(config.get('settings', 'time'))
 nt_values = list(map(int, config.get('settings', 'nt_values').split(',')))
 alpha = float(config.get('settings', 'alpha'))
 
-# Prepare test cases from the configuration file
+#Test cases from the configuration file.
 test_cases = [
     {"length": length, "nx": nx, "time": time, "nt": nt, "alpha": alpha}
     for nx in nx_values for nt in nt_values
 ]
+
 def test_initial_conditions():
+    """
+    Test that the initial conditions of the temperature function are respected.
+    """
     x = np.linspace(0, 1.0, 20)
     expected_initial =  np.sin(np.pi * x / 1.0)
     actual_initial = np.array([function_temperature(xi, 1.0) for xi in x])
@@ -29,6 +33,10 @@ def test_initial_conditions():
 
 @pytest.mark.parametrize("parameters", test_cases)
 def test_check_stability(parameters):
+    """
+    Test that checks that the parameters meet the stability condition.
+    If not, skip the specific case.
+    """
     length = parameters["length"]
     nx = parameters["nx"]
     time = parameters["time"]
@@ -44,6 +52,9 @@ def test_check_stability(parameters):
 
 @pytest.mark.parametrize("parameters", test_cases)
 def test_boundary_conditions(parameters):
+    """
+    Test that checks the enforcing of boundary conditions.
+    """
     length = parameters["length"]
     nx = parameters["nx"]
     time = parameters["time"]
@@ -60,6 +71,9 @@ def test_boundary_conditions(parameters):
 
 @pytest.mark.parametrize("parameters", test_cases)
 def test_matrices_shape(parameters):
+    """
+    Test that checks that the w matrix has the expected dimension [nx, not] for the numerical solution.
+    """
     length = parameters["length"]
     nx = parameters["nx"]
     time = parameters["time"]
@@ -71,8 +85,30 @@ def test_matrices_shape(parameters):
     except ValueError as e:
         pytest.skip(str(e))
         
-    assert w.shape == (nx, nt)
+    assert w.shape == (nx, not)
 
+def test_analytical_solution():
+# Rivedere
+    length = 1.0
+    nx = 50
+    time = 0.5
+    nt = 500
+    alpha = 0.01
+    x_num, w_num = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
+    x_a, wa = heat_equation_analytical(length, nx, time, nt, alpha)
+    
+    assert w_num.shape == wa.shape, f"Shapes of numerical {w_num.shape} and analytical {wa.shape} solutions do not match"
+    
+    try:
+        np.testing.assert_allclose(w_num, wa, rtol=1e-3, atol=5e-4)
+    except AssertionError as e:
+        print(f"Numerical solution:\n{w_num}")
+        print(f"Analytical solution:\n{wa}")
+        raise e
+
+    x_grid, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
+        
+    assert w.shape == (nx, nt)
 
 @settings(deadline=None)
 @given(
@@ -83,6 +119,12 @@ def test_matrices_shape(parameters):
     alpha=st.floats(min_value=0.01, max_value=0.5)
 )
 def test_simulation_convergence(length, nx, time, nt, alpha):
+    """
+    Test that checks both the numerical and analytical solutions.
+    First, the stability condition is verified, and then that the
+    numerical solution matrix and the analytical one have the same dimensions.
+    In the end, it is verified that the numerical solutions match the analytical ones. 
+    """
     deltax = length / (nx - 1)
     deltat = time / (nt - 1)
     r = alpha * deltat / deltax**2
@@ -100,25 +142,4 @@ def test_simulation_convergence(length, nx, time, nt, alpha):
         print(f"Failed case:\nlength={length}, nx={nx}, time={time}, nt={nt}, alpha={alpha}")
         print(f"deltax={deltax}, deltat={deltat}, r={r}")
         raise e
-        
-def test_analytical_solution():
-    length = 1.0
-    nx = 50
-    time = 0.5
-    nt = 500
-    alpha = 0.01
-    x_num, w_num = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
-    x_a, wa = heat_equation_analytical(length, nx, time, nt, alpha)
     
-    assert w_num.shape == wa.shape, f"Shapes of numerical {w_num.shape} and analytical {wa.shape} solutions do not match"
-    
-    try:
-        np.testing.assert_allclose(w_num, wa, rtol=1e-3, atol=5e-4)
-    except AssertionError as e:
-        print(f"Numerical solution:\n{w_num}")
-        print(f"Analytical solution:\n{wa}")
-        raise e
-    
-    x_grid, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
-        
-    assert w.shape == (nx, nt)
