@@ -10,6 +10,7 @@ time = float(config.get('settings', 'time'))
 nt_values = list(map(int, config.get('settings', 'nt_values').split(',')))
 alpha = float(config.get('settings', 'alpha'))
 
+#Verify the presence of stable combinations and then solve and plot for those.
 stable_combinations = check_stability(length, time, alpha, nx_values, nt_values)
 if not stable_combinations:
     raise ValueError("No stable combinations found for the provided parameters.")
