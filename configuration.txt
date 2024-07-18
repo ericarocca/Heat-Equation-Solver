@@ -4,3 +4,7 @@ nx_values = 10,250,31
 time = 1.0
 nt_values = 25,250,117
 alpha = 0.1
+
+[paths]
+numerical_solution: ./numerical_solution.npy
+analytical_solution: ./analytical_solution.npy
