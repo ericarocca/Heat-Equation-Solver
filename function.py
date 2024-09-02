@@ -128,10 +128,6 @@ def heat_equation_analytical(length, nx, time, nt, alpha):
     
     for i in range(nt):
         wa[:, i] = np.sin(np.pi * x / length) * np.exp(-alpha * (np.pi / length)**2 * t[i])
-        #wa[:, i] = np.sin(np.pi * x ) * np.exp(-alpha * (np.pi / length)**2 * t[i])
         wa[0, i] = wa[-1, i] = 0
-        #if i == 1 or i == nt - 1:  # Print for the first and last time steps
-        #    print(f"Analytical solution at t={t[i]}:")
-        #    print(wa[:, i])
-    
+        
     return x, wa
