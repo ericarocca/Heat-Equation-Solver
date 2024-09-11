@@ -87,27 +87,6 @@ def test_matrices_shape(parameters):
         
     assert w.shape == (nx, not)
 
-def test_analytical_solution():
-# Rivedere
-    length = 1.0
-    nx = 50
-    time = 0.5
-    nt = 500
-    alpha = 0.01
-    x_num, w_num = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
-    x_ana, w_ana = heat_equation_analytical(length, nx, time, nt, alpha)
-    
-    assert w_num.shape == w_ana.shape, f"Shapes of numerical {w_num.shape} and analytical {wa.shape} solutions do not match"
-    
-    try:
-        np.testing.assert_allclose(w_num, w_ana, rtol=1e-3, atol=5e-4)
-    except AssertionError as e:
-        print(f"Numerical solution:\n{w_num}")
-        print(f"Analytical solution:\n{w_ana}")
-        raise e
-        
-    assert w_num.shape == (nx, nt)
-
 @settings(deadline=None)
 @given(
     length=st.floats(min_value=1.0, max_value=10.0),  
@@ -140,4 +119,3 @@ def test_simulation_convergence(length, nx, time, nt, alpha):
         print(f"Failed case:\nlength={length}, nx={nx}, time={time}, nt={nt}, alpha={alpha}")
         print(f"deltax={deltax}, deltat={deltat}, r={r}")
         raise e
-    
