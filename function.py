@@ -94,9 +94,6 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
         d = B @ w[:, i-1]
         d[0] = d[-1] = 0
         w[:, i] = np.linalg.solve(A, d)
-        if i == 1 or i == nt - 1:  # Print for the first and last time steps
-            print(f"Numerical solution at t={i * deltat}:")
-            print(w[:, i])
 
     return x, w
 
