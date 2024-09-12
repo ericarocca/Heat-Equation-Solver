@@ -7,6 +7,15 @@ $\frac{\partial w}{\partial t} = \alpha \frac{\partial^2 w}{\partial x^2}$
 where $x$ and $t$ are the spatial and time coordinates, $u$ is the temperature at the point of coordinates $x$ and $\alpha$ is the coefficient of thermal diffusivity of the medium.
 
 The program aims to examine the heat diffusion in a one-dimensional rod with fixed boundary conditions at both ends and an initial temperature distribution given by a sinusoidal function. The equation is solved numerically using the Crank-Nicolson method, an implicit finite difference method, and it is then compared with the analytical solution obtained with a Fourier sine series.\
+
+<h3>Crank-Nicolson Method</h3>
+In this program it is used the initial function
+
+$f = sin\biggr( \frac{\pi  x}{length} \biggl )$\
+and Dirichlet boundary conditions 
+
+$w(0,t) = w(length,t) = 0$
+
 The discretization of the heat equation using the Crank-Nicolson method is:
 
 $-r w_{i+1}^{n+1} + (1 + 2r)w_i^{n+1} - r w_{i-1}^{n+1} = r w_{i+1}^n + (1 - 2r) w_i^n + r w_{i-1}^n$
