@@ -16,7 +16,7 @@ time = float(config.get('settings', 'time'))
 nt_values = list(map(int, config.get('settings', 'nt_values').split(',')))
 alpha = float(config.get('settings', 'alpha'))
 
-#Test cases from the configuration file.
+#test cases from the configuration file.
 test_cases = [
     {"length": length, "nx": nx, "time": time, "nt": nt, "alpha": alpha}
     for nx in nx_values for nt in nt_values
@@ -72,7 +72,7 @@ def test_boundary_conditions(parameters):
 @pytest.mark.parametrize("parameters", test_cases)
 def test_matrices_shape(parameters):
     """
-    Test that checks that the w matrix has the expected dimension [nx, not] for the numerical solution.
+    Test that checks that the w matrix has the expected dimension [nx, nt] for the numerical solution.
     """
     length = parameters["length"]
     nx = parameters["nx"]
@@ -85,7 +85,7 @@ def test_matrices_shape(parameters):
     except ValueError as e:
         pytest.skip(str(e))
         
-    assert w.shape == (nx, not)
+    assert w.shape == (nx, nt)
 
 @settings(deadline=None)
 @given(
