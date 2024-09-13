@@ -6,21 +6,23 @@ $\frac{\partial w}{\partial t} = \alpha \frac{\partial^2 w}{\partial x^2}$
 
 where $x$ and $t$ are the spatial and time coordinates, $u$ is the temperature at the point of coordinates $x$ and $\alpha$ is the coefficient of thermal diffusivity of the medium.
 
-The program aims to examine the heat diffusion in a one-dimensional rod with fixed boundary conditions at both ends and an initial temperature distribution given by a sinusoidal function. The equation is solved numerically using the Crank-Nicolson method, an implicit finite difference method, and it is then compared with the analytical solution obtained with a Fourier sine series.\
+The program aims to examine the heat diffusion in a one-dimensional rod with fixed boundary conditions at both ends and an initial temperature distribution given by a sinusoidal function. The equation is solved numerically using the Crank-Nicolson method, an implicit finite difference method, and it is then compared with the analytical solution obtained with a Fourier sine series.
 
 <h3>Crank-Nicolson Method</h3>
 In this program it is used the initial function
 
-$f = sin\biggr( \frac{\pi  x}{length} \biggl )$\
-and Dirichlet boundary conditions 
+$f = sin\biggr( \frac{\pi  x}{L} \biggl )$\
+and Dirichlet boundary conditions that ensure that the temperature remains zero at both ends of the rod
 
-$w(0,t) = w(length,t) = 0$
+$w(0,t) = w(L,t) = 0$
 
+The spatial and time domains are divided respectively into nx_values spacing of $\Delta x$ and nt_values spacing of $\Delta t$.
 The discretization of the heat equation using the Crank-Nicolson method is:
 
 $-r w_{i+1}^{n+1} + (1 + 2r)w_i^{n+1} - r w_{i-1}^{n+1} = r w_{i+1}^n + (1 - 2r) w_i^n + r w_{i-1}^n$
 
-with $r = \frac{\alpha \Delta t}{2(\Delta x)^2}$.\
+with $r = \frac{\alpha \Delta t}{2(\Delta x)^2}$.
+
 The equation can also be written in matrix form as:
 
 $w_{n+1} = A^{-1}Bw_n$
@@ -49,6 +51,10 @@ r & 1 - 2r & r & \cdots & 0 & 0\cr
 \end{matrix}\right]
 $$
 
+<h3>Analytical Solution</h3>
+The analytical solution of the heat equation it is obtained with a Fourier series. The temperature distribution is expressed as an infinite sum of sine and cosine functions, each satisfying the boundary conditions. The solution used is
+
+$w(x,t) = \sum_{n=1}^{\infty} sin \biggr( \frac{\pi x}{L} \biggl) e^{-\alpha \biggr( \frac{\pi}{L} \biggl)^2 t}$
 
 
 <h2>Structure of the project</h2>
