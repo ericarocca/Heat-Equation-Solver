@@ -43,22 +43,98 @@ def function_temperature(x, length):
     """
     return np.sin(np.pi * x / length)
 
+def calculate_r(length, time, nx, nt, alpha):
+    """
+    Calculate the stability factor r.
+
+    Parameters
+    ----------
+    length : float
+            Length of the rod.
+    time : float
+          Time of the evolution.
+    nx : int
+        Number of spatial steps.
+    nt : int
+        Number of time steps.
+    alpha : float
+           Diffusivity coefficient of the medium.
+
+    Returns
+    -------
+    r : float
+        Stability factor (alpha * deltat / deltax**2).
+    """
+    deltax = length / (nx - 1)
+    deltat = time / (nt - 1)
+    return alpha * deltat / deltax**2
+
+
+def create_matrices(nx, r):
+    """
+    Create matrices A and B for the Crank-Nicolson method.
+
+    Parameters
+    ----------
+    nx : int
+        Number of spatial steps.
+    r : float
+        Stability factor (alpha * deltat / deltax**2).
+
+    Returns
+    -------
+    A : array
+        Matrix A for the Crank-Nicolson method.
+    B : array
+        Matrix B for the Crank-Nicolson method.
+    """
+    A = np.eye(nx) - r/2 * (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx))
+    B = np.eye(nx) + r/2 * (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx))
+    
+    return A, B
+
+def apply_boundary_conditions(matrix):
+    """
+    Apply Dirichlet boundary conditions to a matrix for the Crank-Nicolson method.
+
+    Parameters
+    ----------
+    matrix : array
+            Matrix for the Crank-Nicolson method.
+
+    Returns
+    -------
+    matrix : array
+            Modified matrix with Dirichlet boundary conditions applied.
+    """
+    matrix[0, :] = matrix[-1, :] = 0
+    matrix[0, 0] = matrix[-1, -1] = 1
+
+    return matrix
+
 def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
     """
     The function calculates the numerical solution of the heat equation using Crank-Nicolson method.
     
     Parameters
     ----------
-        length : length of the rod.
-        nx : spatial steps.
-        time : time of the evolution.
-        nt : time steps.
-        alpha : diffusivity coefficient of the medium.
+        length : float
+                length of the rod.
+        nx : int
+            spatial steps.
+        time : float
+              evolution time.
+        nt : int
+            time steps.
+        alpha : float
+               diffusivity coefficient of the medium.
         
     Returns
     -------
-        x : array of spatial coordinates along the rod with nx points.
-        w : array of the temperature calculated with the Crank-Nicolson method of dimensions [nx, nt].
+        x : array
+           spatial coordinates along the rod with nx points.
+        w : array
+           temperature calculated with the Crank-Nicolson method, dimensions [nx, nt].
     
     Raises
     ------
@@ -77,18 +153,12 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
 
     w[0, :] = w[-1, :] = 0
 
-    deltax = length / (nx - 1)
-    deltat = time / (nt - 1)
-    r = alpha * deltat / deltax**2
-
-    A = np.eye(nx) - r/2 * (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx))
-    B = np.eye(nx) + r/2 * (np.eye(nx, k=1) + np.eye(nx, k=-1) - 2 * np.eye(nx))
+    r = calculate_r(length, time, nx, nt, alpha)
     
-    #boundary conditions on matrices
-    A[0, :] = A[-1, :] = 0
-    A[0, 0] = A[-1, -1] = 1
-    B[0, :] = B[-1, :] = 0
-    B[0, 0] = B[-1, -1] = 1
+    A, B = create_matrices(nx, r)
+    
+    A = apply_boundary_conditions(A)
+    B = apply_boundary_conditions(B)
 
     for i in range(1, nt):
         d = B @ w[:, i-1]
@@ -103,16 +173,23 @@ def heat_equation_analytical(length, nx, time, nt, alpha):
     
     Parameters
     ----------
-    length : length of the rod.
-    nx : spatial steps.
-    time : evolution time.
-    nt : time steps.
-    alpha : diffusivity coefficient of the medium.
+        length : float
+                length of the rod.
+        nx : int
+            spatial steps.
+        time : float
+             evolution time.
+        nt : int
+            time steps.
+        alpha : float
+               diffusivity coefficient of the medium.
 
     Returns
     -------
-    x : array of spatial coordinates along the rod with nx points.
-    wa : array of the temperature calculated with a Fourier sine series.
+    x : array
+       spatial coordinates along the rod with nx points.
+    wa : array
+        temperature calculated with the Fourier sine series.
     """
     
     stable_combinations = check_stability(length, time, alpha, [nx], [nt])
