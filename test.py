@@ -5,7 +5,7 @@ import hypothesis
 from hypothesis import strategies as st
 from hypothesis import settings
 from hypothesis import given
-from function import function_temperature, heat_equation_CN, heat_equation_analytical
+from function import function_temperature, heat_equation_CN, heat_equation_analytical, check_stability, create_matrices, apply_boundary_conditions, stability
 
 config = configparser.ConfigParser()
 config.read('configuration.txt')
@@ -86,6 +86,22 @@ def test_matrices_shape(parameters):
         pytest.skip(str(e))
         
     assert w.shape == (nx, nt)
+
+def test_create_matrices():
+    """
+    Test that the create_matrices function returns matrices A and B with correct properties.
+    """
+    nx = 10
+    r = 0.25
+    A, B = create_matrices(nx, r)
+
+    #check dimensions
+    assert A.shape == (nx, nx), "Matrix A has incorrect dimensions"
+    assert B.shape == (nx, nx), "Matrix B has incorrect dimensions"
+    #check symmetry
+    assert np.allclose(A, A.T), "Matrix A is not symmetric"
+    assert np.allclose(B, B.T), "Matrix B is not symmetric"
+
 
 @settings(deadline=None)
 @given(
