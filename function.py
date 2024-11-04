@@ -123,7 +123,7 @@ def create_matrices(nx, r):
 
 def apply_boundary_conditions(matrix):
     """
-    Apply Dirichlet boundary conditions to a matrix for the Crank-Nicolson method.
+    Apply Dirichlet boundary conditions to the matrix for the Crank-Nicolson method.
 
     Parameters
     ----------
@@ -169,10 +169,9 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
         ValueError: If the stability condition is not respected
     """
 
-    stable_combinations = check_stability(length, time, alpha, [nx], [nt])
-    if not stable_combinations:
+    if not stability(length, time, alpha, nx, nt):
         raise ValueError("The scheme is unstable for the provided parameters.")
-    
+
     x = np.linspace(0, length, num=nx)
     w = np.zeros([nx, nt])
 
