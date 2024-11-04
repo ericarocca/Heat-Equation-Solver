@@ -102,6 +102,21 @@ def test_create_matrices():
     assert np.allclose(A, A.T), "Matrix A is not symmetric"
     assert np.allclose(B, B.T), "Matrix B is not symmetric"
 
+@pytest.mark.parametrize("nx", [5, 10, 15])
+def test_apply_boundary_conditions(nx):
+    """
+    Test that apply_boundary_conditions correctly applies Dirichlet boundary conditions.
+    """
+    matrix = np.random.rand(nx, nx)
+    modified_matrix = apply_boundary_conditions(matrix)
+
+    #top row boundary condition
+    assert np.array_equal(modified_matrix[0, :], np.eye(nx)[0, :]), "Boundary conditions not applied correctly at the top row"
+    #bottom row boundary condition
+    assert np.array_equal(modified_matrix[-1, :], np.eye(nx)[-1, :]), "Boundary conditions not applied correctly at the bottom row"
+    #other rows remain unaltered
+    assert np.array_equal(modified_matrix[1:-1, 1:-1], matrix[1:-1, 1:-1]), "Internal matrix rows modified incorrectly"
+
 
 @settings(deadline=None)
 @given(
