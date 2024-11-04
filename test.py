@@ -87,6 +87,25 @@ def test_matrices_shape(parameters):
         
     assert w.shape == (nx, nt)
 
+@pytest.mark.parametrize("length, time, alpha, nx, nt, expected", [
+    (1.0, 1.0, 0.5, 50, 50, False),
+    (2.0, 1.0, 0.05, 20, 10, False),
+    (1.0, 1.0, 0.25, 100, 400, False),
+    (1.0, 1.0, 0.1, 50, 500, True),
+    (2.0, 2.0, 0.02, 100, 1000, True), 
+    (2.0, 1.5, 0.01, 150, 1000, True)    
+])
+def test_stability(length, time, alpha, nx, nt, expected):
+    """
+    Test the is_stable function for various scenarios.
+
+    Parameters:
+    - length, time, alpha, nx, nt: Inputs for the stability function.
+    - expected: Expected boolean outcome indicating stability.
+    """
+    result = stability(length, time, alpha, nx, nt)
+    assert result == expected
+
 def test_create_matrices():
     """
     Test that the create_matrices function returns matrices A and B with correct properties.
