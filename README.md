@@ -57,7 +57,29 @@ The analytical solution of the heat equation it is obtained with a Fourier serie
 $w(x,t) = \sum_{n=1}^{\infty} sin \biggr( \frac{\pi x}{L} \biggl) e^{-\alpha \biggr( \frac{\pi}{L} \biggl)^2 t}$
 
 
-<h2>Structure of the project</h2>
+<h2>Requirements and installation</h2>
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/ericarocca/Heat-Equation-Solver.git
+cd Heat-Equation-Solver
+```
+
+2. To run this project you need the following dependencies:
+
+- **Python** (version 3.8 or higher)
+- **NumPy** (for numerical operations)
+- **Matplotlib** (for visualizations, if applicable)
+- **pytest** (for running tests)
+
+Install the necessary packages using `pip`:
+
+```bash
+pip install numpy matplotlib pytest
+```
+
+<h2>Running the program</h2>
 To start the program the user needs to follow these steps:
 
 1. Write the preferred parameters on the [configuration.txt](./configuration.txt) file and the local paths to save the final results.
