@@ -58,7 +58,15 @@ def test_check_stability(parameters):
 @pytest.mark.parametrize("parameters", test_cases)
 def test_boundary_conditions(parameters):
     """
-    Test that checks the enforcing of boundary conditions.
+    Test that checks the enforcing of boundary conditions on the w array.
+    
+    GIVEN a set of parameters for length, spatial steps (nx), time, time steps (nt), and diffusivity coefficient (alpha)
+          that meet the stability requirements for the Crank-Nicolson heat equation solver,
+    WHEN the heat equation is solved using these parameters,
+    THEN the boundary conditions should be enforced on the w temperature array, meaning:
+         - the temperature at the first position (index 0) along the rod remains 0 for all time steps.
+         - the temperature at the last position (index -1) along the rod remains 0 for all time steps.
+
     """
     length = parameters["length"]
     nx = parameters["nx"]
