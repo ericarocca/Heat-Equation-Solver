@@ -97,11 +97,17 @@ def test_matrices_shape(parameters):
 ])
 def test_stability(length, time, alpha, nx, nt, expected):
     """
-    Test the is_stable function for various scenarios.
+    Test the stability function for various scenarios.
+
+    GIVEN: specific parameters (length, time, alpha, nx, nt) representing a setup for the heat equation.
+    WHEN: checking stability using the stability() function.
+    THEN: the result should match the expected stability outcome.
 
     Parameters:
-    - length, time, alpha, nx, nt: Inputs for the stability function.
-    - expected: Expected boolean outcome indicating stability.
+    - length, time, alpha, nx, nt : float, float, float, int, int
+                                  Inputs for the stability function.
+    - expected: bool
+               Expected boolean outcome indicating stability.
     """
     result = stability(length, time, alpha, nx, nt)
     assert result == expected
