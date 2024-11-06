@@ -31,7 +31,7 @@ def check_stability(length, time, alpha, nx_values, nt_values):
 
     Parameters
     ----------
-    length : floar
+    length : float
             length of the rod.
     time : float
           time of the evolution.
@@ -158,6 +158,12 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
             time steps.
         alpha : float
                diffusivity coefficient of the medium.
+        function_temperature : function
+                    Function that defines the initial temperature distribution along the rod.
+                    It takes two arguments:
+                        - x : float, the spatial position along the rod.
+                        - length : float, the length of the rod.
+                    It should return a float representing the initial temperature at position x.
         
     Returns
     -------
