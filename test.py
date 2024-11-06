@@ -78,6 +78,11 @@ def test_boundary_conditions(parameters):
 def test_matrices_shape(parameters):
     """
     Test that checks that the w matrix has the expected dimension [nx, nt] for the numerical solution.
+    
+    GIVEN: A set of parameters for the heat equation (length, nx, time, nt, alpha).
+    WHEN: Generating the matrices using heat_equation_CN.
+    THEN: The output matrix should have the shape (nx, nt).
+
     """
     length = parameters["length"]
     nx = parameters["nx"]
