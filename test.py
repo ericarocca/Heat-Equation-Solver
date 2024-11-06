@@ -125,6 +125,10 @@ def test_stability(length, time, alpha, nx, nt, expected):
 def test_create_matrices():
     """
     Test that the create_matrices function returns matrices A and B with correct properties.
+    
+    GIVEN: A grid size nx and stability coefficient r.
+    WHEN: Creating matrices using create_matrices.
+    THEN: The matrices A and B should be square, symmetric, and of size (nx, nx).
     """
     nx = 10
     r = 0.25
