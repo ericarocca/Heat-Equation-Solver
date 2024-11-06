@@ -63,8 +63,10 @@ def function_temperature(x, length):
     Generate the initial temperature distribution.
        
     Parameters
-        x : spatial steps on the rod.
-        length : length of the rod.
+        x : int
+           spatial steps on the rod.
+        length : float 
+                length of the rod.
     
     Returns:
         The initial temperature distribution.
