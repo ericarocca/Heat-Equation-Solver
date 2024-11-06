@@ -174,7 +174,11 @@ def test_simulation_convergence(length, nx, time, nt, alpha):
     Test that checks both the numerical and analytical solutions.
     First, the stability condition is verified, and then that the
     numerical solution matrix and the analytical one have the same dimensions.
-    In the end, it is verified that the numerical solutions match the analytical ones. 
+    In the end, it is verified that the numerical solutions match the analytical ones.
+    
+    GIVEN: Randomized parameters for the heat equation.
+    WHEN: Solving the equation numerically and analytically.
+    THEN: The solutions should match in shape and values should be close within tolerance.
     """
     deltax = length / (nx - 1)
     deltat = time / (nt - 1)
