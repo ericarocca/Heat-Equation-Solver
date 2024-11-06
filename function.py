@@ -22,10 +22,7 @@ def stability(length, time, alpha, nx, nt):
     bool
         True if the stability condition (r < 0.5) is met, False otherwise.
     """
-    dx = length / (nx - 1)
-    dt = time / (nt - 1)
-    r = (alpha * dt) / (dx ** 2)
-    
+    r = calculate_r(length, time, nx, nt, alpha)    
     return r < 0.5  #return True if stable
 
 def check_stability(length, time, alpha, nx_values, nt_values):
