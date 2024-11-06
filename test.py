@@ -145,6 +145,10 @@ def test_create_matrices():
 def test_apply_boundary_conditions(nx):
     """
     Test that apply_boundary_conditions correctly applies Dirichlet boundary conditions.
+    
+    GIVEN: A random matrix of size (nx, nx).
+    WHEN: Applying Dirichlet boundary conditions using apply_boundary_conditions.
+    THEN: The first and last rows should match identity boundary conditions, while other rows remain unaltered.
     """
     matrix = np.random.rand(nx, nx)
     modified_matrix = apply_boundary_conditions(matrix)
