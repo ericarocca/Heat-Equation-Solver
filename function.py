@@ -31,11 +31,16 @@ def check_stability(length, time, alpha, nx_values, nt_values):
 
     Parameters
     ----------
-    length : length of the rod.
-    time : time of the evolution.
-    alpha : diffusivity cooefficient of the medium.
-    nx_values : spatial steps.
-    nt_values : time steps.
+    length : floar
+            length of the rod.
+    time : float
+          time of the evolution.
+    alpha : float
+           diffusivity cooefficient of the medium.
+    nx_values : list of int
+               spatial steps.
+    nt_values : list of int
+               time steps.
 
     Returns
     -------
@@ -47,9 +52,7 @@ def check_stability(length, time, alpha, nx_values, nt_values):
     
     for nx in nx_values:
         for nt in nt_values:
-            deltax = length / (nx - 1)
-            deltat = time / (nt - 1)
-            r = alpha * deltat / deltax**2
+            r = calculate_r(length, time, alpha, nx, nt)
             if r < 0.5:
                 stable_combinations.append((length, time, nx, nt, r))
     
