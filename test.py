@@ -7,22 +7,18 @@ from hypothesis import settings
 from hypothesis import given
 from function import function_temperature, heat_equation_CN, heat_equation_analytical, check_stability, create_matrices, apply_boundary_conditions, stability
 
-config = configparser.ConfigParser()
-config.read('configuration.txt')
-
-length = float(config.get('settings', 'length'))
-nx_values = list(map(int, config.get('settings', 'nx_values').split(',')))
-time = float(config.get('settings', 'time'))
-nt_values = list(map(int, config.get('settings', 'nt_values').split(',')))
-alpha = float(config.get('settings', 'alpha'))
-
-#test cases from the configuration file.
-test_cases = [
-    {"length": length, "nx": nx, "time": time, "nt": nt, "alpha": alpha}
-    for nx in nx_values for nt in nt_values
+#numerical test cases
+numerical_cases = [
+    {"length": 2.0, "time": 1.0, "alpha": 0.2, "nx": 20, "nt": 80},  #borderline stability
+    {"length": 0.5, "time": 0.1, "alpha": 0.01, "nx": 10, "nt": 10},  #short rod with minimal time steps
+    {"length": 0.5, "time": 0.1, "alpha": 0.05, "nx": 20, "nt": 50},   #short rod with small time and spatial steps
+    {"length": 1.0, "time": 1.0, "alpha": 0.01, "nx": 200, "nt": 800}, #very fine time and spatial resolution
+    {"length": 3.0, "time": 1.2, "alpha": 0.08, "nx": 100, "nt": 500}, #long rod with higher resolution
+    {"length": 1.2, "time": 0.6, "alpha": 0.03, "nx": 100, "nt": 350}, #stable case with moderate resolution
 ]
 
-def test_initial_conditions():
+@pytest.mark.parametrize("parameters", numerical_cases)
+def test_initial_conditions(parameters):
     """
     Test that the initial conditions of the temperature function are respected.
     
@@ -36,7 +32,7 @@ def test_initial_conditions():
     actual_initial = np.array([function_temperature(xi, 1.0) for xi in x])
     np.testing.assert_allclose(actual_initial, expected_initial, rtol=1e-3)
 
-@pytest.mark.parametrize("parameters", test_cases)
+@pytest.mark.parametrize("parameters", numerical_cases)
 def test_check_stability(parameters):
     """
     Test that checks that the parameters meet the stability condition.
@@ -55,7 +51,7 @@ def test_check_stability(parameters):
     
     assert len(stable_combinations) > 0, f"Parameters {parameters} do not meet the stability condition."
 
-@pytest.mark.parametrize("parameters", test_cases)
+@pytest.mark.parametrize("parameters", numerical_cases)
 def test_boundary_conditions(parameters):
     """
     Test that checks the enforcing of boundary conditions on the w array.
@@ -82,7 +78,7 @@ def test_boundary_conditions(parameters):
     assert np.all(w[0, :] == 0)
     assert np.all(w[-1, :] == 0)
 
-@pytest.mark.parametrize("parameters", test_cases)
+@pytest.mark.parametrize("parameters", numerical_cases)
 def test_matrices_shape(parameters):
     """
     Test that checks that the w matrix has the expected dimension [nx, nt] for the numerical solution.
