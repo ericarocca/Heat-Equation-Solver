@@ -5,7 +5,11 @@ import hypothesis
 from hypothesis import strategies as st
 from hypothesis import settings
 from hypothesis import given
-from function import function_temperature, heat_equation_CN, heat_equation_analytical, check_stability, create_matrices, apply_boundary_conditions, stability
+from function import (
+    function_temperature, heat_equation_CN,
+    heat_equation_analytical, check_stability,
+    create_matrices, apply_boundary_conditions, stability
+)
 
 #numerical test cases
 numerical_cases = [
@@ -46,9 +50,7 @@ def test_check_stability(parameters):
 
     stable_combinations = check_stability(length, time, alpha, [nx], [nt])
     
-    if len(stable_combinations) == 0:
-        pytest.skip(f"Parameters {parameters} do not meet the stability condition.")
-    
+   
     assert len(stable_combinations) > 0, f"Parameters {parameters} do not meet the stability condition."
 
 @pytest.mark.parametrize("parameters", numerical_cases)
@@ -70,10 +72,7 @@ def test_boundary_conditions(parameters):
     nt = parameters["nt"]
     alpha = parameters["alpha"]
     
-    try:
-        x, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
-    except ValueError as e:
-        pytest.skip(str(e))
+    x, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
     
     assert np.all(w[0, :] == 0)
     assert np.all(w[-1, :] == 0)
@@ -94,10 +93,7 @@ def test_matrices_shape(parameters):
     nt = parameters["nt"]
     alpha = parameters["alpha"]
     
-    try:
-        x, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
-    except ValueError as e:
-        pytest.skip(str(e))
+    x, w = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
         
     assert w.shape == (nx, nt)
 
