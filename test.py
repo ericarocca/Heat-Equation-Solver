@@ -13,10 +13,12 @@ from function import (
 
 #numerical test cases
 numerical_cases = [
-    {"length": 0.5, "time": 0.1, "alpha": 0.01, "nx": 10, "nt": 10},  #short rod, low diffusivity, minimal steps resolution
+    {"length": 0.5, "time": 0.1, "alpha": 0.01, "nx": 10, "nt": 10},  #short rod, low diffusivity, low resolution
     {"length": 1.0, "time": 0.1, "alpha": 0.4, "nx": 20, "nt": 40},    #short rod, moderate diffusivity, low resolution
+    {"length": 0.6, "time": 0.05, "alpha": 0.01, "nx": 50, "nt": 100},  #short rod, low diffusivity, high resolution
     {"length": 3.0, "time": 0.3, "alpha": 1.9, "nx": 20, "nt": 60},    #moderate-length rod, high diffusivity, low resolution
     {"length": 3.0, "time": 0.3, "alpha": 0.9, "nx": 20, "nt": 60},   #moderate-length rod, high diffusivity, low resolution
+    {"length": 3.0, "time": 0.2, "alpha": 0.02, "nx": 150, "nt": 300},  #moderate rod, low diffusivity, high resolution
     {"length": 5.0, "time": 0.1, "alpha": 2.0, "nx": 100, "nt": 200},   #long rod, high diffusivity, high resolution
     {"length": 5.0, "time": 0.5, "alpha": 0.8, "nx": 30, "nt": 100},   #long, rod, moderate diffusivity, low resolution
     {"length": 5.0, "time": 0.5, "alpha": 0.1, "nx": 100, "nt": 200},   #long rod, low diffusivity, high resolution
