@@ -160,6 +160,33 @@ def test_apply_boundary_conditions(nx):
     #other rows remain unaltered
     assert np.array_equal(modified_matrix[1:-1, 1:-1], matrix[1:-1, 1:-1]), "Internal matrix rows modified incorrectly"
 
+@pytest.mark.parametrize("parameters", numerical_cases)
+def test_accuracy_against_analytical(parameters):
+    """
+    Test that the Crank-Nicolson solution is accurate by comparing it to the analytical solution for a given set of parameters.
+
+    GIVEN: A set of parameters.
+    WHEN: Computing the temperature distribution using both the CN method and the analytical one.
+    THEN: The relative error between the two solutions should be less than the defined acceptable threshold (1e-3).
+    """
+    length = parameters["length"]
+    nx = parameters["nx"]
+    time = parameters["time"]
+    nt = parameters["nt"]
+    alpha = parameters["alpha"]
+
+    #generate the numerical solution
+    _, numerical_solution = heat_equation_CN(length, nx, time, nt, alpha, function_temperature)
+    _, analytical_solution = heat_equation_analytical(length, nx, time, nt, alpha)
+    
+    #compute relative error
+    error = np.linalg.norm(numerical_solution - analytical_solution) / np.linalg.norm(analytical_solution)
+    
+    #a reasonable threshold for accuracy
+    acceptable_error = 1e-3
+    
+    assert error < acceptable_error, f"Numerical solution error {error:.3e} exceeds acceptable threshold {acceptable_error:.3e}."
+
 
 @settings(deadline=None)
 @given(
