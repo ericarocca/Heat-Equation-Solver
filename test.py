@@ -13,12 +13,14 @@ from function import (
 
 #numerical test cases
 numerical_cases = [
-    {"length": 2.0, "time": 1.0, "alpha": 0.2, "nx": 20, "nt": 80},  #borderline stability
-    {"length": 0.5, "time": 0.1, "alpha": 0.01, "nx": 10, "nt": 10},  #short rod with minimal time steps
-    {"length": 0.5, "time": 0.1, "alpha": 0.05, "nx": 20, "nt": 50},   #short rod with small time and spatial steps
-    {"length": 1.0, "time": 1.0, "alpha": 0.01, "nx": 200, "nt": 800}, #very fine time and spatial resolution
-    {"length": 3.0, "time": 1.2, "alpha": 0.08, "nx": 100, "nt": 500}, #long rod with higher resolution
-    {"length": 1.2, "time": 0.6, "alpha": 0.03, "nx": 100, "nt": 350}, #stable case with moderate resolution
+    {"length": 0.5, "time": 0.1, "alpha": 0.01, "nx": 10, "nt": 10},  #short rod, low diffusivity, minimal steps resolution
+    {"length": 1.0, "time": 0.1, "alpha": 0.4, "nx": 20, "nt": 40},    #short rod, moderate diffusivity, low resolution
+    {"length": 3.0, "time": 0.3, "alpha": 1.9, "nx": 20, "nt": 60},    #moderate-length rod, high diffusivity, low resolution
+    {"length": 3.0, "time": 0.3, "alpha": 0.9, "nx": 20, "nt": 60},   #moderate-length rod, high diffusivity, low resolution
+    {"length": 5.0, "time": 0.1, "alpha": 2.0, "nx": 100, "nt": 200},   #long rod, high diffusivity, high resolution
+    {"length": 5.0, "time": 0.5, "alpha": 0.8, "nx": 30, "nt": 100},   #long, rod, moderate diffusivity, low resolution
+    {"length": 5.0, "time": 0.5, "alpha": 0.1, "nx": 100, "nt": 200},   #long rod, low diffusivity, high resolution
+
 ]
 
 @pytest.mark.parametrize("parameters", numerical_cases)
