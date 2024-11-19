@@ -41,10 +41,9 @@ def test_initial_conditions(parameters):
     np.testing.assert_allclose(actual_initial, expected_initial, rtol=1e-3)
 
 @pytest.mark.parametrize("parameters", numerical_cases)
-def test_check_stability(parameters):
+def test_calculate_r(parameters):
     """
-    Test that checks that the parameters meet the stability condition.
-    If not, skip the specific case.
+    Test that the r parameter is calculated within the correct range.
     
     GIVEN: A set of numerical parameters.
     WHEN: Calculating r using calculate_r.
