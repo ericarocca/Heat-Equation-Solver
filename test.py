@@ -45,6 +45,11 @@ def test_check_stability(parameters):
     """
     Test that checks that the parameters meet the stability condition.
     If not, skip the specific case.
+    
+    GIVEN: A set of numerical parameters.
+    WHEN: Calculating r using calculate_r.
+    THEN: r should fall within the range 0.001≤r≤0.499 to pass the test.
+
     """
     length = parameters["length"]
     nx = parameters["nx"]
@@ -52,10 +57,10 @@ def test_check_stability(parameters):
     nt = parameters["nt"]
     alpha = parameters["alpha"]
 
-    stable_combinations = check_stability(length, time, alpha, [nx], [nt])
+    r = calculate_r(length, time, alpha, nx, nt)
+    r_min, r_max = 0.001, 0.499 #acceptable range for r (empirically chosen for good accuracy)
     
-   
-    assert len(stable_combinations) > 0, f"Parameters {parameters} do not meet the stability condition."
+    assert r_min <= r <= r_max, f"Parameter r={r:.3f} is outside the acceptable range."
 
 @pytest.mark.parametrize("parameters", numerical_cases)
 def test_boundary_conditions(parameters):
