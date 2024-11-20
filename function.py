@@ -24,6 +24,32 @@ def stability(length, time, alpha, nx, nt):
     """
     r = calculate_r(length, time, nx, nt, alpha)    
     return r < 0.5  #return True if stable
+    
+def validate_stability(length, time, nx, nt, alpha):
+    """
+    Validate the stability condition r < 0.5.
+    Parameters
+    ----------
+    length : float
+            length of the rod.
+    time : float
+            time of the evolution.
+    nx : int
+            number of spatial steps.
+    nt : int
+            number of time steps.
+    alpha : float
+            diffusivity coefficient of the medium.
+
+    Raises
+    ------
+    ValueError
+        if the stability condition is not respected.
+    """
+    
+    r = calculate_r(length, time, nx, nt, alpha)
+    if r >= 0.5:
+        raise ValueError(f"Stability condition not met: r = {r:.3f}. Ensure r < 0.5.")
 
 def check_stability(length, time, alpha, nx_values, nt_values):
     """
@@ -44,18 +70,21 @@ def check_stability(length, time, alpha, nx_values, nt_values):
 
     Returns
     -------
-    stable_combinations : array with the combination of parameters that respect the condition of r < 0.5.
-
+    stable_combinations : list of tuples
+                        all parameter combinations that respect the condition of r < 0.5.
     """
     
     stable_combinations = []
     
     for nx in nx_values:
         for nt in nt_values:
-            r = calculate_r(length, time, alpha, nx, nt)
-            if r < 0.5:
+            try:
+                validate_stability(length, time, nx, nt, alpha)
+                r = calculate_r(length, time, nx, nt, alpha)
                 stable_combinations.append((length, time, nx, nt, r))
-    
+            except ValueError:
+                continue
+                
     return stable_combinations
     
 def function_temperature(x, length):
