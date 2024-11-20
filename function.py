@@ -200,14 +200,9 @@ def heat_equation_CN(length, nx, time, nt, alpha, function_temperature):
            spatial coordinates along the rod with nx points.
         w : array
            temperature calculated with the Crank-Nicolson method, dimensions [nx, nt].
-    
-    Raises
-    ------
-        ValueError: If the stability condition is not respected
     """
 
-    if not stability(length, time, alpha, nx, nt):
-        raise ValueError("The scheme is unstable for the provided parameters.")
+    validate_stability(length, time, nx, nt, alpha)
 
     x = np.linspace(0, length, num=nx)
     w = np.zeros([nx, nt])
@@ -256,9 +251,7 @@ def heat_equation_analytical(length, nx, time, nt, alpha):
         temperature calculated with the Fourier sine series.
     """
     
-    stable_combinations = check_stability(length, time, alpha, [nx], [nt])
-    if not stable_combinations:
-        raise ValueError("The scheme is unstable for the provided parameters.")
+    validate_stability(length, time, nx, nt, alpha)
 
     wa = np.zeros([nx, nt])
     t = np.linspace(0, time, num=nt)
