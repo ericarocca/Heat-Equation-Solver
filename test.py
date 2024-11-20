@@ -8,7 +8,8 @@ from hypothesis import given
 from function import (
     function_temperature, heat_equation_CN,
     heat_equation_analytical, check_stability,
-    create_matrices, apply_boundary_conditions
+    create_matrices, apply_boundary_conditions,
+    validate_stability
 )
 
 #numerical test cases
@@ -39,6 +40,47 @@ def test_initial_conditions(parameters):
     expected_initial =  np.sin(np.pi * x / 1.0)
     actual_initial = np.array([function_temperature(xi, 1.0) for xi in x])
     np.testing.assert_allclose(actual_initial, expected_initial, rtol=1e-3)
+
+@pytest.mark.parametrize(
+    "length, time, alpha, nx, nt, expected_valid",
+    [
+        (1.0, 0.5, 0.1, 10, 20, True),  #stable
+        (1.0, 0.5, 0.1, 10, 2, False),  #unstable
+        (1.0, 0.1, 1.0, 5, 10, True),   #stable
+        (1.0, 0.1, 1.0, 5, 3, False),   #unstable
+        (5.0, 1.0, 0.01, 100, 200, True),  #stable
+    ],
+)
+def test_validate_stability(length, time, alpha, nx, nt, expected_valid):
+    """
+    Test for validating stability with valid and invalid configurations.
+
+    Parameters
+    ----------
+    length : float
+            length of the rod.
+    time : float
+            time of the evolution.
+    alpha : float
+            diffusivity coefficient of the medium.
+    nx : int
+        number of spatial steps.
+    nt : int
+        number of time steps.
+    expected_valid : bool
+        true if the configuration is expected to be valid (stable).
+    """
+    if expected_valid:
+        try:
+            validate_stability(length, time, nx, nt, alpha)
+        except ValueError as e:
+            pytest.fail(f"Unexpected ValueError for valid parameters: {locals()} - {str(e)}")
+        assert True  
+    else: #expect a ValueError for invalid configurations
+        with pytest.raises(ValueError, match=r"Unstable configuration: r=\d+\.\d+\. Ensure r < 0\.5\."):
+            validate_stability(length, time, nx, nt, alpha)
+        assert True 
+
 
 def test_check_stability():
     """
