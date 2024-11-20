@@ -1,29 +1,4 @@
 import numpy as np
-
-def stability(length, time, alpha, nx, nt):
-    """
-    Check if the given parameters are stable for the Crank-Nicolson method.
-
-    Parameters
-    ----------
-    length : float
-        Length of the rod.
-    time : float
-        Time of the evolution.
-    alpha : float
-        Diffusivity coefficient of the medium.
-    nx : int
-        Number of spatial steps.
-    nt : int
-        Number of time steps.
-
-    Returns
-    -------
-    bool
-        True if the stability condition (r < 0.5) is met, False otherwise.
-    """
-    r = calculate_r(length, time, nx, nt, alpha)    
-    return r < 0.5  #return True if stable
     
 def validate_stability(length, time, nx, nt, alpha):
     """
