@@ -102,6 +102,21 @@ def test_check_stability_parametrized(length, time, alpha, nx_values, nt_values,
     Given: A set of inputs for length, time, alpha, nx_values, and nt_values.
     When: The check_stability function is called.
     Then: The number of stable combinations matches the expected count.
+
+    Parameters
+    ----------
+    length : float
+        length of the rod.
+    time : float
+        time of the evolution.
+    alpha : float
+        diffusivity coefficient of the medium.
+    nx_values : list of int
+        list of spatial grid resolutions.
+    nt_values : list of int
+        list of temporal grid resolutions.
+    expected_count : int
+        the expected number of stable combinations.
     """
 
     stable_combinations = check_stability(length, time, alpha, nx_values, nt_values)
