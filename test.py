@@ -108,28 +108,6 @@ def test_check_stability_parametrized(length, time, alpha, nx_values, nt_values,
     assert len(stable_combinations) == expected_count
 
 
-def test_check_stability():
-    """
-    Test the check_stability function for finding stable parameter combinations.
-
-    GIVEN: A range of spatial and temporal step values.
-    WHEN: Calling the check_stability function.
-    THEN: It should return all stable combinations and exclude unstable ones.
-    """
-    nx_values = [10, 20, 50]
-    nt_values = [10, 20, 50]
-    length_values = [1.0, 3.5, 5.0]
-    time_values = [0.1, 0.3, 0.5]
-    diffusivity_values = [0.01, 0.4, 0.9]
-    
-    for length in length_values:
-        for time in time_values:
-            for diffusivity in diffusivity_values:
-                stable_combinations = check_stability(length, time, diffusivity, nx_values, nt_values)
-        for length, time, nx, nt, r in stable_combinations:
-            assert r < 0.5
-
-
 @pytest.mark.parametrize("parameters", numerical_cases)
 def test_calculate_r(parameters):
     """
