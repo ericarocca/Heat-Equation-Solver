@@ -28,7 +28,8 @@ def validate_stability(length, time, nx, nt, alpha):
 
 def check_stability(length, time, alpha, nx_values, nt_values):
     """
-    Compute stable combinations of grid size (nx) and time steps (nt) for solving the heat equation based on the stability criterion.
+    Compute and append stable combinations of grid size and time steps
+    for solving the heat equation based on the stability criterion.
     
     Parameters
     ----------
