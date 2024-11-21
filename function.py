@@ -28,8 +28,8 @@ def validate_stability(length, time, nx, nt, alpha):
 
 def check_stability(length, time, alpha, nx_values, nt_values):
     """
-    Checking for the stable parameters.
-
+    Compute stable combinations of grid size (nx) and time steps (nt) for solving the heat equation based on the stability criterion.
+    
     Parameters
     ----------
     length : float
@@ -46,20 +46,23 @@ def check_stability(length, time, alpha, nx_values, nt_values):
     Returns
     -------
     stable_combinations : list of tuples
-                        all parameter combinations that respect the condition of r < 0.5.
+                        all parameter combinations that respect the condition of r < 0.5
+                        each tuple contains: length, time, nx, nt, r.
     """
     
     stable_combinations = []
-    
+    epsilon = 1e-10  #small tolerance for floating-point comparison
+
     for nx in nx_values:
+        dx = length / nx 
         for nt in nt_values:
-            try:
-                validate_stability(length, time, nx, nt, alpha)
-                r = calculate_r(length, time, nx, nt, alpha)
+            dt = time / nt
+            r = (alpha * dt) / (dx ** 2)
+
+            #include only stable combinations where r is strictly less than 0.5
+            if r < 0.5 and r + epsilon < 0.5:
                 stable_combinations.append((length, time, nx, nt, r))
-            except ValueError:
-                continue
-                
+
     return stable_combinations
     
 def function_temperature(x, length):
