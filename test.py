@@ -81,6 +81,32 @@ def test_validate_stability(length, time, alpha, nx, nt, expected_valid):
             validate_stability(length, time, nx, nt, alpha)
         assert True 
 
+@pytest.mark.parametrize(
+    "length, time, alpha, nx_values, nt_values, expected_count",
+    [
+        (1.0, 0.5, 0.1, [10, 20, 50], [10, 20], 1),  #1 stable combination expected
+        (1.0, 0.5, 0.1, [10, 20], [5, 10], 0),       #0 stable combinations expected
+        (1.0, 0.5, 1.0, [5, 10, 15], [5, 10, 15], 0),  #0 stable combinations expected
+        (2.0, 0.1, 0.1, [10, 20], [20, 40], 4),  #4 stable combinations expected
+    ],
+)
+def test_check_stability_parametrized(length, time, alpha, nx_values, nt_values, expected_count):
+    """
+    Test the check_stability function using parameterized inputs.
+    
+    This test verifies the function's ability to:
+    - Correctly identify stable combinations of grid and time steps,
+    - Handle cases with no stable combinations,
+    - Maintain numerical precision for the stability condition r < 0.5.
+    
+    Given: A set of inputs for length, time, alpha, nx_values, and nt_values.
+    When: The check_stability function is called.
+    Then: The number of stable combinations matches the expected count.
+    """
+
+    stable_combinations = check_stability(length, time, alpha, nx_values, nt_values)
+    assert len(stable_combinations) == expected_count
+
 
 def test_check_stability():
     """
