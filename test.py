@@ -54,7 +54,20 @@ def test_initial_conditions(parameters):
 def test_validate_stability(length, time, alpha, nx, nt, expected_valid):
     """
     Test for validating stability with valid and invalid configurations.
+    This test ensures that the `validate_stability` function correctly validates
+    whether the given parameters produce a stable or unstable configuration
+    based on the condition r < 0.5.
 
+    GIVEN: numerical parameters of the simulation.
+    WHEN: the `validate_stability` function is invoked.
+    THEN:
+        - if `expected_valid` is True, no exception is raised.
+        - if `expected_valid` is False, a ValueError is raised with a specific message.
+
+    Scenarios:
+        - Valid configurations should not raise an error.
+        - Invalid configurations should raise a ValueError with an informative message.
+    """
     Parameters
     ----------
     length : float
