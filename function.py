@@ -23,8 +23,8 @@ def validate_stability(length, time, nx, nt, alpha):
     """
     
     r = calculate_r(length, time, nx, nt, alpha)
-    if r >= 0.5:
-        raise ValueError(f"Stability condition not met: r = {r:.3f}. Ensure r < 0.5.")
+    if r > 0.5:
+        raise ValueError(f"Unstable configuration: r={r}. Ensure r < 0.5.")
 
 def check_stability(length, time, alpha, nx_values, nt_values):
     """
