@@ -2,7 +2,7 @@ import numpy as np
     
 def validate_stability(length, time, nx, nt, alpha):
     """
-    Validate the stability condition r < 0.5.
+    Validate the stability condition r < 0.5 raising an error if it's not respected.
     Parameters
     ----------
     length : float
