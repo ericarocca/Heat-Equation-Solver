@@ -67,7 +67,6 @@ def test_validate_stability(length, time, alpha, nx, nt, expected_valid):
     Scenarios:
         - Valid configurations should not raise an error.
         - Invalid configurations should raise a ValueError with an informative message.
-    """
     Parameters
     ----------
     length : float
