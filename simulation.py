@@ -3,7 +3,6 @@ import numpy as np
 from function import heat_equation_CN, heat_equation_analytical, function_temperature, plot_solutions, plot_surface_solution, check_stability
 
 def process_configuration(config_file):
-    def process_config(config_file):
     """
     Processes a given configuration file.
 
