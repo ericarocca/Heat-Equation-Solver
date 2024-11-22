@@ -70,7 +70,7 @@ cd Heat-Equation-Solver
 
 - **Python** (version 3.8 or higher)
 - **NumPy** (for numerical operations)
-- **Matplotlib** (for visualizations, if applicable)
+- **Matplotlib** (for visualizations)
 - **pytest** (for running tests)
 
 Install the necessary packages using `pip`:
@@ -82,11 +82,12 @@ pip install numpy matplotlib pytest
 <h2>Running the program</h2>
 To start the program the user needs to follow these steps:
 
-1. Write the preferred parameters on the [configuration.txt](./configuration.txt) file and the local paths to save the final results.
-2. Launch the [simulation.py](./simulation.py) which imports the selected parameters from the [configuration.py](./configuration.py) file using the ConfigParser library. It is then verified the presence of stable combinations of parameters, if not it is shown a ValueError, and the simulation ends. If there are stable combinations, the program calculates both the numerical and the analytical solution, saves them automatically in the data folder, and then shows the plots.
+1. Write the preferred parameters on the [configurationA.txt](./configurationA.txt) and [configurationB.txt](./configurationB.txt) files and the local paths to save the final results.
+2. Launch the [simulation.py](./simulation.py) and choose one of the configuration files. The script imports the selected parameters using the ConfigParser library. It is then verified the presence of stable combinations of parameters, if not a ValueError is raised and the simulation ends. If there are stable combinations, the program calculates both the numerical and the analytical solutions.
+3. The results are automatically saved in the data folder, and then the program generates and displays the plots.
 
 There are five blocks in this project:
-* In the [configuration.txt](./configuration.txt) file there are all the parameters used in the [simulation.py](./simulation.py). For both nx_values and nt_values there is a list of different parameters so that it is possible to verify more than one combination per execution. There are also local paths for saving the solutions array.
+* In the [configurationA.txt](./configurationA.txt) and [configurationB.txt](./configurationB.txt) files there are all the parameters used in the [simulation.py](./simulation.py). For both nx_values and nt_values there is a list of different parameters so that it is possible to verify more than one combination per execution. There are also local paths for saving the solutions array.
 * In the [function.py](./function.py) file there are all the functions used to calculate the solutions of the heat equation.
 * In the [test.py](./test.py) file all the functions are tested so that all of them work properly as well as the program itself.
 * In the [plot.py](./plot.py) file there are two functions, one that plots the comparison between the numerical and the analytical solution of the heat equation and the other that shows the surface plot of the numerical solution through time.
