@@ -1,0 +1,10 @@
+[settings]
+length = 5.0
+nx_values = 100,25,781
+time = 0.50
+nt_values = 25,250,117
+alpha = 0.6
+
+[paths]
+numerical_solution = ./numerical_solution_b.npy
+analytical_solution = ./analytical_solution_b.npy
