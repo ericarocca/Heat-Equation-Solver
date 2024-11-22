@@ -3,7 +3,38 @@ import numpy as np
 from function import heat_equation_CN, heat_equation_analytical, function_temperature, plot_solutions, plot_surface_solution, check_stability
 
 def process_configuration(config_file):
-    """Function that process a single configuration file."""
+    def process_config(config_file):
+    """
+    Processes a given configuration file.
+
+    Parameter:
+        config_file : str
+            The file should be in INI format with the following sections:
+                - [settings]: Contains simulation parameters.
+                             * length (float): length of the rod.
+                             * nx_values (list of int): list for the spatial discretization.
+                             * time (float): total simulation time.
+                             * nt_values (list of int): list for the time discretization.
+                             * alpha (float): thermal diffusivity constant.
+                - [paths]: Contains file paths for saving solutions.
+                             * numerical_solution (str): path to save the numerical solution as a .npy file.
+                             * analytical_solution (str): path to save the analytical solution as a .npy file.
+
+    Behavior:
+        1. Reads the configuration file and extracts simulation parameters and output paths.
+        2. Checks for stable combinations of spatial and temporal discretizations.
+           Raises a ValueError if no stable combinations are found.
+        3. For each stable combination, the function:
+           - Computes the numerical solution using the Crank-Nicolson method.
+           - Computes the analytical solution.
+           - Saves both solutions to the specified file paths.
+           - Generates and displays plots of the solutions.
+
+    Raises:
+        ValueError: If no stable combinations are found for the provided parameters.
+
+    """
+    
     config = configparser.ConfigParser()
     config.read(config_file)
 
