@@ -83,15 +83,21 @@ pip install numpy matplotlib pytest
 To start the program the user needs to follow these steps:
 
 1. Write the preferred parameters on the [configurationA.txt](./configurationA.txt) and [configurationB.txt](./configurationB.txt) files and the local paths to save the final results.
-2. Launch the [simulation.py](./simulation.py) and choose one of the configuration files. The script imports the selected parameters using the ConfigParser library. It is then verified the presence of stable combinations of parameters, if not a ValueError is raised and the simulation ends. If there are stable combinations, the program calculates both the numerical and the analytical solutions.
-3. The results are automatically saved in the data folder, and then the program generates and displays the plots.
+2. Launch the [simulation.py](./simulation.py) from the command line:
+   - By default, if no argument is provided, the script will use the parameters from [configurationA.txt](./configurationA.txt).
+   - To choose a different configuration file, specify it as an argument:
+      ```bash
+      python simulation.py configurationB.txt
+      ```
+3. The script imports the selected parameters using the `ConfigParser` library. It then verifies the presence of stable combinations of parameters, if not a ValueError is raised and the simulation ends. If there are stable combinations, the program calculates both the numerical and the analytical solutions.
+4. The results are automatically saved in the data folder, and then the program generates and displays the plots.
 
 There are five blocks in this project:
 * In the [configurationA.txt](./configurationA.txt) and [configurationB.txt](./configurationB.txt) files there are all the parameters used in the [simulation.py](./simulation.py). For both nx_values and nt_values there is a list of different parameters so that it is possible to verify more than one combination per execution. There are also local paths for saving the solutions array.
 * In the [function.py](./function.py) file there are all the functions used to calculate the solutions of the heat equation.
 * In the [test.py](./test.py) file all the functions are tested so that all of them work properly as well as the program itself.
 * In the [plot.py](./plot.py) file there are two functions, one that plots the comparison between the numerical and the analytical solution of the heat equation and the other that shows the surface plot of the numerical solution through time.
-* In the [simulation.py](./simulation.py) file there is the main part of the code, where the numerical and analytical solutions  matrices are calculated, saved on the appropriate path, and then plotted.
+* In the [simulation.py](./simulation.py) file there is the main part of the code, where the numerical and analytical solutions  matrices are calculated, saved on the appropriate path, and then plotted. The user selects the configuration file to be used by passing it as a command-line argument when running the script. If no argument is provided, the program defaults to using [configurationA.txt](./configurationA.txt).
 
 Some examples of the obtainable results:
 ![Plot](./Plot/Figure1.png)
