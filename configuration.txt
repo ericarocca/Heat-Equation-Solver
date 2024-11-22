@@ -6,5 +6,5 @@ nt_values = 25,250,117
 alpha = 0.1
 
 [paths]
-numerical_solution: ./numerical_solution.npy
-analytical_solution: ./analytical_solution.npy
+numerical_solution: ./numerical_solution_A.npy
+analytical_solution: ./analytical_solution_B.npy
