@@ -1,4 +1,5 @@
 import configparser
+import argparse
 import numpy as np
 from function import heat_equation_CN, heat_equation_analytical, function_temperature, plot_solutions, plot_surface_solution, check_stability
 
@@ -65,19 +66,10 @@ def process_configuration(config_file):
         plot_solutions(x, w, wa, chosen_nt, chosen_time, chosen_length, chosen_nx, alpha)
         plot_surface_solution(x, w, chosen_nt, chosen_time, chosen_length, chosen_nx, alpha)
 
-#the user can choose a specific configuration
-print("Choose configuration A or B:")
-choice = input("Enter A or B: ").strip().upper()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run heat equation simulation with a specific configuration file.")
+    parser.add_argument("config_file", nargs="?", default="configurationA.txt")
 
-#map choices to configuration files
-configuration_map = {
-    "A": "configurationA.txt",
-    "B": "configurationB.txt"
-}
-
-#check if the choice is valid
-if choice not in configuration_map:
-    raise ValueError("Invalid choice!!! Please enter 'A' or 'B'.")
-
-#process the chosen configuration
-process_configuration(configuration_map[choice])
+    #the user can choose a specific configuration by command line or use the default one
+    args = parser.parse_args()
+    process_configuration(args.config_file)
