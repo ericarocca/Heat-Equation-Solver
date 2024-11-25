@@ -1,7 +1,8 @@
 import configparser
 import argparse
 import numpy as np
-from function import heat_equation_CN, heat_equation_analytical, function_temperature, plot_solutions, plot_surface_solution, check_stability
+from function import heat_equation_CN, heat_equation_analytical, function_temperature, check_stability
+from plot import plot_solutions, plot_surface_solution
 
 def process_configuration(config_file):
     """
